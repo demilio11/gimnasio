@@ -17,6 +17,7 @@ class _Pantalla1State extends State<Pantalla1> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: appBarColor,
       appBar: AppBar(
         toolbarHeight: 100,
         backgroundColor: appBarColor,
@@ -25,59 +26,90 @@ class _Pantalla1State extends State<Pantalla1> {
           style: fuenteGrande,
         ),
       ),
-      body: Column(
-        children: [
-          Text(
-            "Género",
-            style: fuenteChica,
-          ),
-          DropdownButton<String>(
-              onChanged: (String? newValue) {
-                setState(() {
-                  generoUsuario = newValue;
-                });
-              },
-              items: generos.map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList()),
-          Text("Fecha de Nacimiento", style: fuenteChica),
-          ElevatedButton(
-              onPressed: () async {
-                DateTime now = DateTime.now();
-                DateTime? pickedDate = await showDatePicker(context: context, firstDate: DateTime(1900), lastDate: DateTime.now());
-              },
-              child: child),
-          Text("Peso", style: fuenteChica),
-          TextField(
-            controller: pesoController,
-            inputFormatters: [
-              FilteringTextInputFormatter.deny(RegExp(r'["|!/()?$#%&°*+-:;]')),
-            ],
-            decoration: const InputDecoration(labelText: 'Tu peso'),
-            keyboardType: TextInputType.number,
-          ),
-          Text("Altura", style: fuenteChica),
-          TextField(
-            controller: alturaController,
-            inputFormatters: [
-              FilteringTextInputFormatter.deny(RegExp(r'["|!/()?$#%&°*+-:;]')),
-            ],
-            decoration: const InputDecoration(labelText: 'Tu altura'),
-            keyboardType: TextInputType.number,
-          ),
-          Text("¿Cuál es tu meta de peso?", style: fuenteChica),
-          TextField(
-            controller: pesoObjController,
-            inputFormatters: [
-              FilteringTextInputFormatter.deny(RegExp(r'["|!/()?$#%&°*+-:;]')),
-            ],
-            decoration: const InputDecoration(labelText: 'Peso objetivo'),
-            keyboardType: TextInputType.number,
-          ),
-        ],
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Text(
+                  "Género:",
+                  style: fuenteChica,
+                ),
+                const SizedBox(width: 15),
+                DropdownButton<String>(
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        generoUsuario = newValue;
+                      });
+                    },
+                    items: generos.map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList())
+              ],
+            ),
+            const SizedBox(height: 15),
+            Row(
+              children: [
+                Text(
+                  "Fecha de Nacimiento",
+                  style: fuenteChica,
+                ),
+                const SizedBox(width: 15),
+                ElevatedButton(
+                  onPressed: () async {
+                    DateTime? pickedDate = await showDatePicker(context: context, firstDate: DateTime(1900), lastDate: DateTime.now());
+                    if (pickedDate != null) {
+                      setState(() {
+                        fechaNac = pickedDate;
+                      });
+                    }
+                  },
+                  child: const Text('Seleccionar fecha de nacimiento'),
+                ),
+              ],
+            ),
+            const SizedBox(height: 15),
+            Container(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "Peso:",
+                style: fuenteChica,
+              ),
+            ),
+            TextField(
+              controller: pesoController,
+              inputFormatters: [
+                FilteringTextInputFormatter.deny(RegExp(r'["|!/()?$#%&°*+-:;]')),
+              ],
+              decoration: InputDecoration(labelText: 'Tu peso', labelStyle: fuenteChica),
+              keyboardType: TextInputType.number,
+            ),
+            const SizedBox(height: 15),
+            Container(alignment: Alignment.centerLeft, child: Text("Altura", style: fuenteChica)),
+            TextField(
+              controller: alturaController,
+              inputFormatters: [
+                FilteringTextInputFormatter.deny(RegExp(r'["|!/()?$#%&°*+-:;]')),
+              ],
+              decoration: InputDecoration(labelText: 'Tu altura', labelStyle: fuenteChica),
+              keyboardType: TextInputType.number,
+            ),
+            const SizedBox(height: 15),
+            Container(alignment: Alignment.centerLeft, child: Text("¿Cuál es tu meta de peso?", style: fuenteChica)),
+            TextField(
+              controller: pesoObjController,
+              inputFormatters: [
+                FilteringTextInputFormatter.deny(RegExp(r'["|!/()?$#%&°*+-:;]')),
+              ],
+              decoration: InputDecoration(labelText: 'Peso objetivo', labelStyle: fuenteChica),
+              keyboardType: TextInputType.number,
+            ),
+          ],
+        ),
       ),
     );
   }
