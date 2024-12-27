@@ -53,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
     if (claveValida) {
       return const Scaffold();
     } else {
-      return const Pantalla1();
+      return const Pantalla0();
     }
   }
 }
