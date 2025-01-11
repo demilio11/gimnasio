@@ -5,7 +5,7 @@ Future<void> verificarClaveUsuario() async {
 
   if (snapUsuario.exists) {
     String claveAlmacenada = snapUsuario.value.toString();
-    claveValida = claveAlmacenada == clave;
+    claveValida = claveAlmacenada == pass;
   }
   claveValida = false;
 }
